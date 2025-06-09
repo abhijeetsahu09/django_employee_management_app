@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Review Leave Request</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="mb-3">
+        <label for="from_email" class="form-label">From Email</label>
+        <input type="email" class="form-control" name="from_email" id="from_email" placeholder="Sender Email">
+    </div>
+    <div class="mb-3">
+        <label for="to_email" class="form-label">To Email</label>
+        <input type="email" class="form-control" name="to_email" id="to_email" placeholder="Receiver Email" value="{{ leave.user.email }}">
+    </div>
+    <div class="mb-3">
+        <label for="subject" class="form-label">Subject</label>
+        <input type="text" class="form-control" name="subject" id="subject" placeholder="Email Subject">
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" name="message" id="message" rows="3" placeholder="Email Message"></textarea>
+    </div>
+
+    <button type="submit" name="change_status" class="btn btn-primary">Update Status Only</button>
+    <button type="submit" name="change_status_and_email" class="btn btn-success">Update Status &amp; Send Email</button>
+    <a href="{% url 'leave_list' %}" class="btn btn-secondary">Back</a>
+</form>
+{% endblock %}

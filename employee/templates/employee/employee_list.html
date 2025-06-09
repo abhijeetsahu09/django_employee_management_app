@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Employees</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>Status</th>
+    </tr>
+    {% for emp in employees %}
+    <tr>
+        <td>
+    {% if emp.profile_picture %}
+      <img src="{{ emp.profile_picture.url }}" alt="Profile Pic" width="40" height="40" class="rounded-circle me-2">
+    {% endif %}
+    {{ emp.user.get_full_name }}
+  </td>
+        <td>{{ emp.user.get_full_name }}</td>
+        <td>{{ emp.user.email }}</td>
+        <td>{{ emp.department }}</td>
+        <td>{{ emp.designation }}</td>
+        <td>{{ emp.status }}</td>
+        <td>
+            <a href="{% url 'update_employee' emp.pk %}" class="btn btn-sm btn-warning">Update</a>
+        </td>
+        <td>
+            <a href="{% url 'employee_detail' emp.pk %}" class="btn btn-info btn-sm">View Details</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

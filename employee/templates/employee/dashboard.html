@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="row mt-4">
+  <div class="col-md-3">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Employees</h5>
+        <p class="card-text display-6">{{ total_employees }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Tasks</h5>
+        <p class="card-text display-6">{{ total_tasks }}</p>
+      </div>
+    </div> 
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-warning mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Pending</h5>
+        <p class="card-text display-6">{{ pending_tasks }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">In Progress</h5>
+        <p class="card-text display-6">{{ in_progress_tasks }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Completed Task</h5>
+        <p class="card-text display-6">{{ completed_tasks }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

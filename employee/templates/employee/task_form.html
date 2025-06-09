@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% if form.instance.pk %}Update{% else %}Create{% endif %} Task</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if task.upload %}
+    <p>Previously uploaded file: <a href="{{ task.upload.url }}" target="_blank">{{ task.upload.name }}</a></p>
+  {% endif %}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+<a href="{% url 'task_list' %}" class="btn btn-secondary mt-2">Back to Tasks</a>
+{% if user.is_superuser %}
+{% if form.instance.pk %}
+<a href="{% url 'delete_task' form.instance.pk %}" class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</a>
+{% endif %}
+{% endif %}
+{% endblock %}

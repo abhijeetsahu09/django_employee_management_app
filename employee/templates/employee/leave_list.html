@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Leave Requests</h2>
+<table class="table">
+  <tr>
+    <th>Employee</th><th>Dates</th><th>Reason</th><th>Status</th><th>Action</th>
+  </tr>
+  {% for leave in leaves %}
+  <tr>
+    <td>{{ leave.user.get_full_name }}</td>
+    <td>{{ leave.start_date }} to {{ leave.end_date }}</td>
+    <td>{{ leave.reason|truncatewords:10 }}</td>
+    <td>{{ leave.status|title }}</td>
+    <td>
+      {% if user.is_superuser and leave.status == 'pending' %}
+        <a href="{% url 'review_leave' leave.pk %}" class="btn btn-sm btn-outline-primary">Review</a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

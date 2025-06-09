@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">HR Dashboard</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary shadow">
+        <div class="card-body">
+          <h5 class="card-title">Employees</h5>
+          <p class="display-6">{{ total_employees }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success shadow">
+        <div class="card-body">
+          <h5 class="card-title">Tasks</h5>
+          <p class="display-6">{{ total_tasks }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning shadow">
+        <div class="card-body">
+          <h5 class="card-title">Pending Leaves</h5>
+          <p class="display-6">{{ pending_leaves }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-info shadow">
+        <div class="card-body">
+          <h5 class="card-title">Today Present</h5>
+          <p class="display-6">{{ today_attendance }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <a href="{% url 'employee_list' %}" class="btn btn-outline-primary w-100">Manage Employees</a>
+    </div>
+    <div class="col-md-4">
+      <a href="{% url 'leave_list' %}" class="btn btn-outline-warning w-100">Review Leave Requests</a>
+    </div>
+    <div class="col-md-4">
+      <a href="{% url 'attendance_list' %}" class="btn btn-outline-success w-100">View Attendance</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Attendance</h2>
+{% if not user.is_superuser %}
+  <a href="{% url 'check_in' %}" class="btn btn-success">Check In</a>
+  <a href="{% url 'check_out' %}" class="btn btn-warning">Check Out</a>
+{% endif %}
+
+{% if user.is_superuser %}
+<form method="get" class="mb-3 d-inline-block">
+    <label for="employee">Search by Employee:</label>
+    <select name="employee" id="employee" class="form-select d-inline-block w-auto">
+        <option value="">All</option>
+        {% for emp in employees %}
+            <option value="{{ emp.id }}" {% if request.GET.employee == emp.id|stringformat:"s" %}selected{% endif %}>
+                {{ emp.get_full_name }}
+            </option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-outline-primary btn-sm">Search</button>
+</form>
+{% endif %}
+
+<form method="get" action="{% url 'export_attendance_excel' %}" class="mb-3 d-inline-block">
+  <input type="hidden" name="employee" value="{{ request.GET.employee }}">
+    From: <input type="date" name="start_date" required>
+    To: <input type="date" name="end_date" required>
+    <button class="btn btn-outline-success btn-sm">Export Excel</button>
+</form>
+
+<form method="get" action="{% url 'export_attendance_pdf' %}" class="mb-3 d-inline-block ms-3">
+  <input type="hidden" name="employee" value="{{ request.GET.employee }}">
+    From: <input type="date" name="start_date" required>
+    To: <input type="date" name="end_date" required>
+    <button class="btn btn-outline-danger btn-sm">Export PDF</button>
+</form>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Check In</th>
+      <th>Check Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+    <tr>
+      <td>{{ record.user.get_full_name }}</td>
+      <td>{{ record.check_in|date:"D d M Y H:i" }}</td>
+      <td>{{ record.check_out|date:"D d M Y H:i" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

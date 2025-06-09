@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Tasks</h2>
+{% if user.is_superuser %}
+  <form method="get" class="mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="assigned_to" class="form-label">Assigned To</label>
+        <select name="assigned_to" id="assigned_to" class="form-select">
+          <option value="">All</option>
+          {% for employee in employees %}
+            <option value="{{ employee.id }}" {% if request.GET.assigned_to == employee.id|stringformat:"s" %}selected{% endif %}>
+              {{ employee.get_full_name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="status" class="form-label">Status</label>
+        <select name="status" id="status" class="form-select">
+          <option value="">All</option>
+          <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+          <option value="in_progress" {% if request.GET.status == "in_progress" %}selected{% endif %}>In Progress</option>
+          <option value="completed" {% if request.GET.status == "completed" %}selected{% endif %}>Completed</option>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary me-2">Filter</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">Reset</a>
+      </div>
+    </div>
+  </form>
+{% endif %}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Task Assgined To Whom</th>
+        <th>Title</th>
+        <th>Client Name</th>
+        <th>Description</th> 
+        <th>Status</th>
+        <th>Due</th>
+        <th>Action</th>
+        <th>Files for Downloads</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.assigned_to.get_full_name }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.client.name }}</td>
+        <td>{{ task.description|truncatewords:10 }}</td>
+        <td>{{ task.get_status_display }}</td>
+        <td>{{ task.due_date }}</td>
+        <td>
+            <a href="{% url 'update_task' task.pk %}" class="btn btn-sm btn-primary">Update</a>
+        </td>
+        {% if user.is_superuser and task.upload %}
+  <td><a href="{{ task.upload.url }}" target="_blank">Download</a></td>
+{% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% if user.is_superuser %}
+    <a href="{% url 'create_task' %}" class="btn btn-success">Add Task</a>
+{% endif %}
+{% endblock %}
+
+
+
