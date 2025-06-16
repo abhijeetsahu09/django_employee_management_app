@@ -8,6 +8,13 @@ from django.utils import timezone
 
 # Create your views here.
 def home(request):
+
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('admin_dashboard')
+        else:
+            return redirect('task_list')
+        
     # Check to see if logging in
     if request.method == 'POST':
         username = request.POST['username']
